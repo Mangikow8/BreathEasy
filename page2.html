@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8"> 
+    <title>BreathEasy</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #E8D5CC;
+            margin: 0;
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #E8D5CC;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            overflow: hidden; /* Empêcher le défilement pendant le chargement */
+        }
+
+        .loader img {
+            width: 120px;
+            animation: blink 0.5s infinite alternate;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        /* Contenu caché au début */
+        .content {
+            display: none;
+            padding-bottom: 80px; /* Pour éviter que le footer cache du contenu */
+        }
+
+        /* Style des sliders et boutons */
+        .slider-container {
+            margin-bottom: 20px;
+        }
+
+        .slider {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .slider-value {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .button-container {
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #BDA18A;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #5f3e2b;
+        }
+
+        /* Pied de page */
+        footer {
+            background-color: #BDA18A;
+            color: white;
+            padding: 20px 50px;
+            text-align: left;
+            font-family: Arial, sans-serif;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .footer-section {
+            width: 20%;
+            min-width: 150px;
+        }
+
+        .footer-section h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .payment-icons img {
+            width: 40px;
+            margin-right: 10px;
+        }
+
+        .footer-bottom {
+            margin-top: 20px;
+            text-align: center;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .footer-links li {
+            margin: 0 10px;
+            font-size: 12px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .social-icons img {
+            width: 30px;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Animation de chargement -->
+    <div class="loader">
+        <img src="BreathEasy.png" alt="Chargement...">
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="content">
+        <h1>Vous êtes sur la page de contrôle de BreathEasy</h1>
+
+        <div class="slider-container">
+            <label for="slider1">Curseur de température en degrés:</label><br>
+            <input type="range" id="slider1" class="slider" min="15" max="30" step="1" value="0">
+            <div id="slider1-value" class="slider-value">Valeur : 0</div>
+            <div class="button-container">
+                <button id="confirm1">Confirmer</button>
+            </div>
+        </div>
+
+        <div class="slider-container">
+            <label for="slider2">Curseur d'humidité en pourcentage:</label><br>
+            <input type="range" id="slider2" class="slider" min="0" max="100" step="1" value="0">
+            <div id="slider2-value" class="slider-value">Valeur : 0</div>
+            <div class="button-container">
+                <button id="confirm2">Confirmer</button>
+            </div>
+        </div>
+
+        <div class="slider-container">
+            <label for="slider3">Curseur de CO2 en PPM:</label><br>
+            <input type="range" id="slider3" class="slider" min="300" max="1200" step="10" value="0">
+            <div id="slider3-value" class="slider-value">Valeur : 0</div>
+            <div class="button-container">
+                <button id="confirm3">Confirmer</button>
+            </div>
+        </div>
+
+        <div class="slider-container">
+            <label for="slider4">Curseur d'ouverture de fenêtre:</label><br>
+            <input type="range" id="slider4" class="slider" min="0" max="100" step="10" value="0">
+            <div id="slider4-value" class="slider-value">Valeur : 0</div>
+            <div class="button-container">
+                <button id="confirm4">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pied de page -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>PRODUITS</h3>
+                <ul>
+                    <li>Volets et brise-soleil</li>
+                    <li>Stores et rideaux</li>
+                    <li>Terrasse</li>
+                    <li>Portes de garage et portails</li>
+                    <li>Caméras et alarmes</li>
+                    <li>Chauffage et éclairage</li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>À PROPOS</h3>
+                <ul>
+                    <li>Découvrez BreathEasy</li>
+                    <li>Partenaires et compatibilités</li>
+                    <li>Réalisez votre projet avec nous</li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>PROTECTION CLIENT</h3>
+                <p>Ce site répond aux critères de sécurité.</p>
+                <p>⭐⭐⭐⭐⭐ 5/5</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 BreathEasy - Tous droits réservés</p>
+            <ul class="footer-links">
+                <li>Informations légales</li>
+                <li>Protection des données</li>
+            </ul>
+        </div>
+
+        <div class="social-icons">
+            <img src="Facebook (1).png" alt="Facebook">
+            <img src="X.png" alt="Twitter">
+            <img src="YTB.png" alt="YouTube">
+        </div>
+    </footer>
+
+    <script>
+        // Gestion du chargement
+        window.onload = function() {
+            setTimeout(() => {
+                document.querySelector('.loader').style.display = 'none';
+                document.querySelector('.content').style.display = 'block';
+            }, 4700);
+        };
+
+        function updateSliderValue(sliderId, valueId) {
+            const slider = document.getElementById(sliderId);
+            const valueDisplay = document.getElementById(valueId);
+            slider.addEventListener('input', function() {
+                valueDisplay.textContent = 'Valeur : ' + slider.value;
+            });
+        }
+
+        updateSliderValue('slider1', 'slider1-value');
+        updateSliderValue('slider2', 'slider2-value');
+        updateSliderValue('slider3', 'slider3-value');
+        updateSliderValue('slider4', 'slider4-value');
+    </script>
+
+</body>
+</html>

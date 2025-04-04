@@ -11,7 +11,6 @@
             margin: 0;
         }
 
-        /* Loader */
         .loader {
             position: fixed;
             top: 0;
@@ -23,7 +22,7 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            overflow: hidden; /* Empêcher le défilement pendant le chargement */
+            overflow: hidden; 
         }
 
         .loader img {
@@ -36,15 +35,13 @@
             100% { opacity: 0.3; }
         }
 
-        /* Contenu caché au début */
         .content {
             display: none;
-            padding-bottom: 80px; /* Pour éviter que le footer cache du contenu */
+            padding-bottom: 80px;
         }
 
-        /* Style des sliders et boutons */
         .slider-container {
-            margin-bottom: 20px;
+            margin-bottom: 30px; /* Espace entre le curseur et les boutons */
         }
 
         .slider {
@@ -77,7 +74,6 @@
             background-color: #5f3e2b;
         }
 
-        /* Pied de page */
         footer {
             background-color: #BDA18A;
             color: white;
@@ -154,16 +150,14 @@
 </head>
 
 <body>
-
-    <!-- Animation de chargement -->
     <div class="loader">
         <img src="BreathEasy.png" alt="Chargement...">
     </div>
 
-    <!-- Contenu principal -->
     <div class="content">
         <h1>Vous êtes sur la page de contrôle de BreathEasy</h1>
 
+        <!-- Température -->
         <div class="slider-container">
             <label for="slider1">Curseur de température en degrés:</label><br>
             <input type="range" id="slider1" class="slider" min="15" max="30" step="1" value="0">
@@ -171,8 +165,19 @@
             <div class="button-container">
                 <button id="confirm1">Confirmer</button>
             </div>
+            <div class="button-container">
+                <label for="temp-condition">Ouvrir quand la température est supérieure à :</label>
+                <input type="number" id="temp-condition" placeholder="Valeur en °C">
+                <button id="open-temp">Ouvrir</button>
+            </div>
+            <div class="button-container">
+                <label for="temp-condition-close">Fermer quand la température est inférieure à :</label>
+                <input type="number" id="temp-condition-close" placeholder="Valeur en °C">
+                <button id="close-temp">Fermer</button>
+            </div>
         </div>
 
+        <!-- Humidité -->
         <div class="slider-container">
             <label for="slider2">Curseur d'humidité en pourcentage:</label><br>
             <input type="range" id="slider2" class="slider" min="0" max="100" step="1" value="0">
@@ -180,8 +185,19 @@
             <div class="button-container">
                 <button id="confirm2">Confirmer</button>
             </div>
+            <div class="button-container">
+                <label for="humidity-condition">Ouvrir quand l'humidité est supérieure à :</label>
+                <input type="number" id="humidity-condition" placeholder="Valeur en %">
+                <button id="open-humidity">Ouvrir</button>
+            </div>
+            <div class="button-container">
+                <label for="humidity-condition-close">Fermer quand l'humidité est inférieure à :</label>
+                <input type="number" id="humidity-condition-close" placeholder="Valeur en %">
+                <button id="close-humidity">Fermer</button>
+            </div>
         </div>
 
+        <!-- CO2 -->
         <div class="slider-container">
             <label for="slider3">Curseur de CO2 en PPM:</label><br>
             <input type="range" id="slider3" class="slider" min="300" max="1200" step="10" value="0">
@@ -189,8 +205,19 @@
             <div class="button-container">
                 <button id="confirm3">Confirmer</button>
             </div>
+            <div class="button-container">
+                <label for="co2-condition">Ouvrir quand le CO2 est supérieur à :</label>
+                <input type="number" id="co2-condition" placeholder="Valeur en PPM">
+                <button id="open-co2">Ouvrir</button>
+            </div>
+            <div class="button-container">
+                <label for="co2-condition-close">Fermer quand le CO2 est inférieur à :</label>
+                <input type="number" id="co2-condition-close" placeholder="Valeur en PPM">
+                <button id="close-co2">Fermer</button>
+            </div>
         </div>
 
+        <!-- Ouverture fenêtre -->
         <div class="slider-container">
             <label for="slider4">Curseur d'ouverture de fenêtre:</label><br>
             <input type="range" id="slider4" class="slider" min="0" max="100" step="10" value="0">
@@ -201,7 +228,6 @@
         </div>
     </div>
 
-    <!-- Pied de page -->
     <footer>
         <div class="footer-container">
             <div class="footer-section">
@@ -248,12 +274,11 @@
     </footer>
 
     <script>
-        // Gestion du chargement
         window.onload = function() {
             setTimeout(() => {
                 document.querySelector('.loader').style.display = 'none';
                 document.querySelector('.content').style.display = 'block';
-            }, 4700);
+            }, 2700);
         };
 
         function updateSliderValue(sliderId, valueId) {
@@ -268,6 +293,75 @@
         updateSliderValue('slider2', 'slider2-value');
         updateSliderValue('slider3', 'slider3-value');
         updateSliderValue('slider4', 'slider4-value');
+
+        // Fonction pour envoyer les données via POST
+        function sendDataToArduino(parametre, valeur) {
+            fetch('http://localhost:5000/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    parametre: parametre,
+                    valeur: valeur
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Erreur:', error));
+        }
+
+        // Boutons de confirmation
+        document.getElementById('confirm1').addEventListener('click', function() {
+            const valeur = document.getElementById('slider1').value;
+            sendDataToArduino('temperature', valeur);
+        });
+
+        document.getElementById('confirm2').addEventListener('click', function() {
+            const valeur = document.getElementById('slider2').value;
+            sendDataToArduino('humidite', valeur);
+        });
+
+        document.getElementById('confirm3').addEventListener('click', function() {
+            const valeur = document.getElementById('slider3').value;
+            sendDataToArduino('co2', valeur);
+        });
+
+        document.getElementById('confirm4').addEventListener('click', function() {
+            const valeur = document.getElementById('slider4').value;
+            sendDataToArduino('fenetre', valeur);
+        });
+
+        // Ouvrir et fermer les fenêtres en fonction des conditions
+        document.getElementById('open-temp').addEventListener('click', function() {
+            const valeur = document.getElementById('temp-condition').value;
+            sendDataToArduino('temp_open', valeur);
+        });
+
+        document.getElementById('close-temp').addEventListener('click', function() {
+            const valeur = document.getElementById('temp-condition-close').value;
+            sendDataToArduino('temp_close', valeur);
+        });
+
+        document.getElementById('open-humidity').addEventListener('click', function() {
+            const valeur = document.getElementById('humidity-condition').value;
+            sendDataToArduino('humidity_open', valeur);
+        });
+
+        document.getElementById('close-humidity').addEventListener('click', function() {
+            const valeur = document.getElementById('humidity-condition-close').value;
+            sendDataToArduino('humidity_close', valeur);
+        });
+
+        document.getElementById('open-co2').addEventListener('click', function() {
+            const valeur = document.getElementById('co2-condition').value;
+            sendDataToArduino('co2_open', valeur);
+        });
+
+        document.getElementById('close-co2').addEventListener('click', function() {
+            const valeur = document.getElementById('co2-condition-close').value;
+            sendDataToArduino('co2_close', valeur);
+        });
     </script>
 
 </body>
